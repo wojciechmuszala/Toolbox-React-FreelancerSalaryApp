@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-background: #111111;
+  --color-text: #f2f2f2;
+  --color-white: #ffffff;
+  --color-primary: #7a3ffc;
+  --color-primary-light: #8B54FF;
+  --color-primary-ultra-light: #A776FF
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "Roboto Mono", monospace;
+}
