@@ -16,8 +16,8 @@ const UserInputs = ({ onSetUserData }) => {
   };
 
   return (
-    <section className='flex flex-col gap-4'>
-      <form onSubmit={handleSubmit}>
+    <section>
+      <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <div className='flex gap-4'>
           <p className='w-full'>
             <label htmlFor='monthlyRate' className='label'>

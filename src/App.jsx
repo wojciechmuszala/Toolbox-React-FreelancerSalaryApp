@@ -21,7 +21,11 @@ function App() {
         <UserInputs onSetUserData={setUserData} />
       </main>
 
-      <button onClick={() => console.log(userData)}>test</button>
+      <button
+        className='btn-primary mx-auto'
+        onClick={() => console.log(userData)}>
+        [TEST] Pokaż dane
+      </button>
 
       <Footer />
     </div>
