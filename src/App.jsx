@@ -13,25 +13,15 @@ function App() {
     commuteDistance: null,
   });
 
-  const collectUserData = (inputId, inputValue) => {
-    setUserData((prevData) => ({
-      ...prevData,
-      [inputId]: inputValue,
-    }));
-  };
-
   return (
     <div className='min-h-screen bg-background text-text font-sans'>
       <Header />
 
       <main className='p-6 max-w-3xl mx-auto space-y-6'>
-        <UserInputs onCollectUserData={collectUserData} />
-        <button
-          className='btn-primary mx-auto mt-12'
-          onClick={() => console.log(userData)}>
-          Oblicz
-        </button>
+        <UserInputs onSetUserData={setUserData} />
       </main>
+
+      <button onClick={() => console.log(userData)}>test</button>
 
       <Footer />
     </div>
