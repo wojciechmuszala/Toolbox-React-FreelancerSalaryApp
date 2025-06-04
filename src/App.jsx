@@ -5,13 +5,7 @@ import Header from "./components/Header";
 import UserInputs from "./components/UserInputs";
 
 function App() {
-  const [userData, setUserData] = useState({
-    monthlyRate: null,
-    daysOff: null,
-    taxForm: "",
-    commuteCount: null,
-    commuteDistance: null,
-  });
+  const [userData, setUserData] = useState({});
 
   return (
     <div className='min-h-screen bg-background text-text font-sans'>
