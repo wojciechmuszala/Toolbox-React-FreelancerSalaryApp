@@ -1,11 +1,17 @@
+import { useState } from "react";
+import Switch from "./ui/Switch.jsx";
+
 const UserInputs = ({ onSetUserData }) => {
+  const [isGross, setIsGross] = useState(false);
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const form = event.target;
 
     const formData = {
-      monthlyRate: form.monthlyRate.value,
+      monthlyRateNetto: form.monthlyRateNetto.value || null,
+      monthlyRateBrutto: form.monthlyRateBrutto.value || null,
       daysOff: form.daysOff.value,
       taxForm: form.taxForm.value,
       commuteCount: form.commuteCount.value,
@@ -17,21 +23,42 @@ const UserInputs = ({ onSetUserData }) => {
 
   return (
     <section>
+      <div className='w-full'>
+        <label className='block text-sm font-medium mb-1'>Kwota</label>
+        <Switch checked={isGross} onChange={setIsGross} />
+      </div>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
-        <div className='flex gap-4'>
-          <p className='w-full'>
-            <label htmlFor='monthlyRate' className='label'>
-              Stawka miesięczna (netto)
-            </label>
-            <input
-              id='monthlyRate'
-              type='number'
-              required
-              className='input'
-              placeholder='np. 12000'
-            />
-          </p>
-        </div>
+        {isGross ? (
+          <div className='flex gap-4'>
+            <p className='w-full'>
+              <label htmlFor='monthlyRateBrutto' className='label'>
+                Stawka miesięczna (brutto)
+              </label>
+              <input
+                id='monthlyRateBrutto'
+                type='number'
+                required
+                className='input'
+                placeholder='np. 12300'
+              />
+            </p>
+          </div>
+        ) : (
+          <div className='flex gap-4'>
+            <p className='w-full'>
+              <label htmlFor='monthlyRateNetto' className='label'>
+                Stawka miesięczna (netto)
+              </label>
+              <input
+                id='monthlyRateNetto'
+                type='number'
+                required
+                className='input'
+                placeholder='np. 10000'
+              />
+            </p>
+          </div>
+        )}
         <div className='flex gap-4'>
           <p className='w-full'>
             <label htmlFor='daysOff' className='label'>
