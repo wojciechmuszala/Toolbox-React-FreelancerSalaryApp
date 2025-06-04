@@ -10,32 +10,32 @@ const UserInputs = ({ onSetUserData }) => {
     const form = event.target;
 
     const formData = {
-      monthlyRateNetto: form.monthlyRateNetto.value || null,
-      monthlyRateBrutto: form.monthlyRateBrutto.value || null,
-      daysOff: form.daysOff.value,
+      isGross: isGross,
+      monthlyRate: form.monthlyRate.value,
+      unpaidDaysOff: form.unpaidDaysOff.value,
       taxForm: form.taxForm.value,
       commuteCount: form.commuteCount.value,
       commuteDistance: form.commuteDistance.value,
     };
-
+    console.log("Form Data:", formData);
     onSetUserData(formData);
   };
 
   return (
     <section>
-      <div className='w-full'>
-        <label className='block text-sm font-medium mb-1'>Kwota</label>
-        <Switch checked={isGross} onChange={setIsGross} />
-      </div>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+        <div className='w-full'>
+          <label className='block text-sm font-medium mb-1'>Typ kwoty</label>
+          <Switch checked={isGross} onChange={setIsGross} />
+        </div>
         {isGross ? (
           <div className='flex gap-4'>
             <p className='w-full'>
-              <label htmlFor='monthlyRateBrutto' className='label'>
+              <label htmlFor='monthlyRate' className='label'>
                 Stawka miesięczna (brutto)
               </label>
               <input
-                id='monthlyRateBrutto'
+                id='monthlyRate'
                 type='number'
                 required
                 className='input'
@@ -46,11 +46,11 @@ const UserInputs = ({ onSetUserData }) => {
         ) : (
           <div className='flex gap-4'>
             <p className='w-full'>
-              <label htmlFor='monthlyRateNetto' className='label'>
+              <label htmlFor='monthlyRate' className='label'>
                 Stawka miesięczna (netto)
               </label>
               <input
-                id='monthlyRateNetto'
+                id='monthlyRate'
                 type='number'
                 required
                 className='input'
@@ -61,11 +61,11 @@ const UserInputs = ({ onSetUserData }) => {
         )}
         <div className='flex gap-4'>
           <p className='w-full'>
-            <label htmlFor='daysOff' className='label'>
-              Dni wolne
+            <label htmlFor='unpaidDaysOff' className='label'>
+              Bezpłatne dni wolne
             </label>
             <input
-              id='daysOff'
+              id='unpaidDaysOff'
               type='number'
               className='input'
               placeholder='np. 2'
@@ -80,7 +80,7 @@ const UserInputs = ({ onSetUserData }) => {
             <select id='taxForm' required className='input'>
               <option value=''>-- wybierz --</option>
               <option value='liniowy'>Podatek liniowy</option>
-              <option value='progresywny'>Skala podatkowa</option>
+              <option value='progresywny'>Skala podatkowa (12% / 32%)</option>
               <option value='ryczalt'>Ryczałt</option>
             </select>
           </p>
