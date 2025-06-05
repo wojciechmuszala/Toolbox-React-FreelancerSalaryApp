@@ -7,7 +7,22 @@ const Expenses = ({ expenses, onSetExpenses }) => {
   const [costAmount, setCostAmount] = useState("");
 
   const handleAddCost = () => {
-    onSetExpenses([...expenses, { name: costName, amount: costAmount }]);
+    if (!costName.trim()) {
+      alert("Podaj nazwę kosztu.");
+      return;
+    }
+
+    // Walidacja liczby - upewniamy się, że amount to prawidłowa liczba > 0
+    const amount = parseFloat(costAmount);
+    if (isNaN(amount) || amount <= 0) {
+      alert("Kwota kosztu musi być liczbą większą od 0.");
+      return;
+    }
+
+    onSetExpenses([
+      ...expenses,
+      { name: costName.trim(), amount: amount.toFixed(2) },
+    ]);
     setCostName("");
     setCostAmount("");
   };
@@ -29,6 +44,8 @@ const Expenses = ({ expenses, onSetExpenses }) => {
         />
         <input
           type='number'
+          min='0'
+          step='0.01'
           className='input w-1/3'
           placeholder='Kwota brutto (zł)'
           value={costAmount}

@@ -12,12 +12,26 @@ const UserInputs = ({ onSetUserData }) => {
     event.preventDefault();
 
     const form = event.target;
+    const monthlyRate = form.monthlyRate.value.trim();
+    const unpaidDaysOff = form.unpaidDaysOff.value.trim();
+
+    const isNumber = (value) => !isNaN(parseFloat(value)) && isFinite(value);
+
+    if (!isNumber(monthlyRate)) {
+      alert("Stawka miesięczna musi być liczbą.");
+      return;
+    }
+
+    if (unpaidDaysOff && !isNumber(unpaidDaysOff)) {
+      alert("Bezpłatne dni wolne muszą być liczbą.");
+      return;
+    }
 
     const formData = {
       isGross: isGross,
-      monthlyRate: form.monthlyRate.value,
-      expenses: expenses,
-      unpaidDaysOff: form.unpaidDaysOff.value,
+      monthlyRate,
+      expenses,
+      unpaidDaysOff,
       taxForm: form.taxForm.value,
       reliefs: {
         isVatPayer: form.isVatPayer?.checked || false,
@@ -30,6 +44,7 @@ const UserInputs = ({ onSetUserData }) => {
         useExpenses: form.useExpenses?.checked || false,
       },
     };
+
     console.log("Form Data:", formData);
     onSetUserData(formData);
   };
@@ -50,6 +65,8 @@ const UserInputs = ({ onSetUserData }) => {
               <input
                 id='monthlyRate'
                 type='number'
+                min='0'
+                step='0.01'
                 required
                 className='input'
                 placeholder='np. 12300'
@@ -65,6 +82,8 @@ const UserInputs = ({ onSetUserData }) => {
               <input
                 id='monthlyRate'
                 type='number'
+                min='0'
+                step='0.01'
                 required
                 className='input'
                 placeholder='np. 10000'
@@ -83,6 +102,8 @@ const UserInputs = ({ onSetUserData }) => {
             <input
               id='unpaidDaysOff'
               type='number'
+              min='0'
+              step='0.01'
               className='input'
               placeholder='np. 2'
             />
