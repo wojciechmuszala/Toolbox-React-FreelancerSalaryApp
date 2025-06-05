@@ -49,13 +49,13 @@ const Results = ({ userData }) => {
             </td>
           </tr>
           <tr className='text-xs text-text/70'>
-            <td className='pl-4 py-1'>Efektywna dniówka</td>
+            <td className='pl-4 py-1'>Dniówka</td>
             <td className='py-1 text-right'>
               {noData ? "-" : format(results.netIncome / 21)}
             </td>
           </tr>
           <tr className='text-xs text-text/70'>
-            <td className='pl-4 py-1'>Efektywna stawka godzinowa</td>
+            <td className='pl-4 py-1'>Stawka godzinowa</td>
             <td className='py-1 text-right'>
               {noData ? "-" : format(results.netIncome / 168)}
             </td>
