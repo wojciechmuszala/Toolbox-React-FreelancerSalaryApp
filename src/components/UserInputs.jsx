@@ -6,6 +6,7 @@ import InfoTooltip from "./ui/InfoTooltip.jsx";
 const UserInputs = ({ onSetUserData }) => {
   const [isGross, setIsGross] = useState(false);
   const [taxForm, setTaxForm] = useState("");
+  const [expenses, setExpenses] = useState([]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -15,6 +16,7 @@ const UserInputs = ({ onSetUserData }) => {
     const formData = {
       isGross: isGross,
       monthlyRate: form.monthlyRate.value,
+      expenses: expenses,
       unpaidDaysOff: form.unpaidDaysOff.value,
       taxForm: form.taxForm.value,
       reliefs: {
@@ -25,7 +27,7 @@ const UserInputs = ({ onSetUserData }) => {
         isFlatRate: form.isFlatRate?.checked || false,
         youthRelief: form.youthRelief?.checked || false,
         ipBox: form.ipBox?.checked || false,
-        useCosts: form.useCosts?.checked || false,
+        useExpenses: form.useExpenses?.checked || false,
       },
     };
     console.log("Form Data:", formData);
@@ -71,7 +73,7 @@ const UserInputs = ({ onSetUserData }) => {
           </div>
         )}
         <div className='flex gap-4'>
-          <Expenses />
+          <Expenses expenses={expenses} onSetExpenses={setExpenses} />
         </div>
         <div className='flex gap-4'>
           <p className='w-full'>
@@ -201,12 +203,12 @@ const UserInputs = ({ onSetUserData }) => {
 
               {/* Koszty tylko przy progresywnym lub liniowym */}
               {(taxForm === "liniowy" || taxForm === "progresywny") && (
-                <label htmlFor='useCosts' className='flex items-center gap-2'>
+                <label htmlFor='useExpenses' className='flex items-center gap-2'>
                   <input
                     type='checkbox'
                     className='checkbox'
-                    name='useCosts'
-                    id='useCosts'
+                    name='useExpenses'
+                    id='useExpenses'
                   />
                   Uwzględniam koszty uzyskania
                   <InfoTooltip text='Uwzględnianie kosztów uzyskania przychodu pozwala na pomniejszenie podstawy opodatkowania o poniesione wydatki.' />
@@ -215,7 +217,7 @@ const UserInputs = ({ onSetUserData }) => {
             </div>
           </div>
         </div>
-        <button className='btn-primary mx-auto mt-12 min-w-40'>Oblicz</button>
+        <button className='btn-primary mx-auto mt-4 min-w-40'>Oblicz</button>
       </form>
     </section>
   );

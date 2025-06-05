@@ -2,13 +2,12 @@ import { useState } from "react";
 import InfoTooltip from "./ui/InfoTooltip.jsx";
 import { format } from "../utils/calculateEarnings.js";
 
-const Expenses = () => {
+const Expenses = ({ expenses, onSetExpenses }) => {
   const [costName, setCostName] = useState("");
   const [costAmount, setCostAmount] = useState("");
-  const [costs, setCosts] = useState([]);
 
   const handleAddCost = () => {
-    setCosts([...costs, { name: costName, amount: costAmount }]);
+    onSetExpenses([...expenses, { name: costName, amount: costAmount }]);
     setCostName("");
     setCostAmount("");
   };
@@ -51,7 +50,7 @@ const Expenses = () => {
         </thead>
         <tbody>
           {/* Tu później będą mapowane koszty */}
-          {costs.length === 0 ? (
+          {expenses.length === 0 ? (
             <tr className='opacity-40 pointer-events-none'>
               <td className='p-2 w-3/5'>np. Paliwo</td>
               <td className='p-2 w-1/5 text-center'>{format(267.02)}</td>
@@ -62,7 +61,7 @@ const Expenses = () => {
               </td>
             </tr>
           ) : (
-            costs.map((cost, index) => (
+            expenses.map((cost, index) => (
               <tr key={index} className='border-t border-primary-light'>
                 <td className='p-2 w-3/5'>{cost.name}</td>
                 <td className='p-2 w-1/5 text-center'>{format(cost.amount)}</td>

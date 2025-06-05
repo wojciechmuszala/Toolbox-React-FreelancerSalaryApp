@@ -1,18 +1,9 @@
 export function calculateEarnings(formData) {
-  const {
-    isGross,
-    monthlyRate,
-    unpaidDaysOff,
-    taxForm,
-    commuteCount,
-    commuteDistance,
-    reliefs,
-  } = formData;
+  const { isGross, monthlyRate, unpaidDaysOff, taxForm, expenses, reliefs } =
+    formData;
 
   const parsedMonthlyRate = parseFloat(monthlyRate) || 0;
   const unpaidDays = parseInt(unpaidDaysOff) || 0;
-  const commuteTrips = parseInt(commuteCount) || 0;
-  const distance = parseFloat(commuteDistance) || 0;
 
   // 1. Podstawy
   const workingDays = 20;
@@ -23,11 +14,8 @@ export function calculateEarnings(formData) {
     : parsedMonthlyRate;
 
   // 2. Składki ZUS (fikcyjne wartości)
-  // Stałe składki ZUS na 2025 rok
   const ZUS_STANDARD = 1773.96; // Pełny ZUS z chorobowym
-  const ZUS_STANDARD_NO_CHOROBOWE = 1646.47; // Pełny ZUS bez chorobowego
   const ZUS_PREFERENCYJNY = 442.9; // Preferencyjny ZUS z chorobowym
-  const ZUS_PREFERENCYJNY_NO_CHOROBOWE = 408.6; // Preferencyjny ZUS bez chorobowego
 
   let zus = ZUS_STANDARD; // Domyślnie pełny ZUS z chorobowym
 
@@ -36,8 +24,6 @@ export function calculateEarnings(formData) {
   } else if (reliefs.smallZUS) {
     zus = ZUS_PREFERENCYJNY;
   } else if (reliefs.smallZUSPlus) {
-    // Dla Małego ZUS Plus należałoby obliczyć składki indywidualnie
-    // Na potrzeby uproszczenia przyjmujemy wartość preferencyjną
     zus = ZUS_PREFERENCYJNY;
   }
 
@@ -47,13 +33,19 @@ export function calculateEarnings(formData) {
     vat = parsedMonthlyRate * 0.23;
   }
 
+  // 3.5 Koszty uzyskania przychodu z expenses
+  const expensesList = Array.isArray(expenses) ? expenses : [];
+  const totalExpenses = expensesList.reduce(
+    (acc, item) => acc + parseFloat(item.amount || 0),
+    0
+  );
+
   // 4. Podatek dochodowy (upraszczamy)
   let tax = 0;
   let taxableBase = incomeAfterUnpaid - zus;
 
   if (taxForm === "progresywny") {
-    // koszty uzyskania: 250 zł/mc
-    if (reliefs.useCosts) taxableBase -= 250;
+    taxableBase -= totalExpenses;
 
     if (reliefs.youthRelief) {
       tax = 0;
@@ -66,7 +58,7 @@ export function calculateEarnings(formData) {
   }
 
   if (taxForm === "liniowy") {
-    if (reliefs.useCosts) taxableBase -= 250;
+    taxableBase -= totalExpenses;
     if (reliefs.ipBox) {
       tax = taxableBase * 0.05;
     } else {
@@ -78,17 +70,39 @@ export function calculateEarnings(formData) {
     tax = parsedMonthlyRate * 0.15;
   }
 
+  // Składka zdrowotna – uproszczenie: 9% od podstawy (tylko progresywny)
+  const healthInsurance = taxForm === "progresywny" ? taxableBase * 0.09 : 0;
+  zus += healthInsurance;
+
   // 5. Netto i brutto
   const grossIncome = isGross ? parsedMonthlyRate : parsedMonthlyRate + vat;
-  console.log(vat);
+
+  // Dochód na rękę przed kosztami (netto - zus - podatek)
+  const netIncomeBeforeExpenses = incomeAfterUnpaid - zus - tax;
+
+  // Dochód na rękę po kosztach (netto - zus - podatek - koszty)
+  const netIncome = netIncomeBeforeExpenses - totalExpenses;
+
+  // Wartości netto i brutto z formularza (zawsze oba)
+  const formNetIncome = isGross
+    ? (parsedMonthlyRate - vat).toFixed(2)
+    : parsedMonthlyRate.toFixed(2);
+  const formGrossIncome = isGross
+    ? parsedMonthlyRate.toFixed(2)
+    : (parsedMonthlyRate + vat).toFixed(2);
 
   return {
-    netIncome: parsedMonthlyRate.toFixed(2),
+    formNetIncome,
+    formGrossIncome,
+    netIncomeBeforeExpenses: netIncomeBeforeExpenses.toFixed(2),
+    expenses: totalExpenses.toFixed(2),
+    netIncome: netIncome.toFixed(2),
     grossIncome: grossIncome.toFixed(2),
     socialSecurity: zus.toFixed(2),
     incomeTax: tax.toFixed(2),
     vat: vat.toFixed(2),
     grossIncomeWithVat: grossIncome.toFixed(2),
+    healthInsurance: healthInsurance.toFixed(2),
   };
 }
 
