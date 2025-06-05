@@ -18,16 +18,16 @@ const UserInputs = ({ onSetUserData }) => {
       commuteCount: form.commuteCount.value,
       commuteDistance: form.commuteDistance.value,
       reliefs: {
-        startupRelief: form.startupRelief.checked,
-        smallZUS: form.smallZUS.checked,
-        smallZUSPlus: form.smallZUSPlus.checked,
-        isFlatRate: form.isFlatRate.checked,
-        youthRelief: form.youthRelief.checked,
-        ipBox: form.ipBox.checked,
-        useCosts: form.useCosts.checked,
+        isVatPayer: form.isVatPayer?.checked || false,
+        startupRelief: form.startupRelief?.checked || false,
+        smallZUS: form.smallZUS?.checked || false,
+        smallZUSPlus: form.smallZUSPlus?.checked || false,
+        isFlatRate: form.isFlatRate?.checked || false,
+        youthRelief: form.youthRelief?.checked || false,
+        ipBox: form.ipBox?.checked || false,
+        useCosts: form.useCosts?.checked || false,
       },
     };
-    console.log("taxForm:", taxForm);
     console.log("Form Data:", formData);
     onSetUserData(formData);
   };
@@ -131,6 +131,16 @@ const UserInputs = ({ onSetUserData }) => {
           <div
             className={`w-full px-4 py-2 bg-background border border-primary-light rounded text-white`}>
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-y-2'>
+              {/* ZUSowe - dostępne zawsze */}
+              <label htmlFor='isVatPayer' className='flex items-center gap-2'>
+                <input
+                  type='checkbox'
+                  className='checkbox'
+                  name='isVatPayer'
+                  id='isVatPayer'
+                />
+                Podatnik VAT
+              </label>
               {/* ZUSowe - dostępne zawsze */}
               <label
                 htmlFor='startupRelief'
