@@ -15,7 +15,7 @@
 
 @layer utilities {
   .btn-primary {
-    @apply block bg-primary text-white px-4 py-2 rounded hover:bg-primary-light transition-colors min-w-40;
+    @apply block bg-primary text-white px-4 py-2 rounded hover:bg-primary-light transition-colors;
   }
 
   .input {

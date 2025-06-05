@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Switch from "./ui/Switch.jsx";
+import Expenses from "./Expenses.jsx";
 import InfoTooltip from "./ui/InfoTooltip.jsx";
 
 const UserInputs = ({ onSetUserData }) => {
@@ -69,6 +70,9 @@ const UserInputs = ({ onSetUserData }) => {
             </p>
           </div>
         )}
+        <div className='flex gap-4'>
+          <Expenses />
+        </div>
         <div className='flex gap-4'>
           <p className='w-full'>
             <label htmlFor='unpaidDaysOff' className='label'>
@@ -211,7 +215,7 @@ const UserInputs = ({ onSetUserData }) => {
             </div>
           </div>
         </div>
-        <button className='btn-primary mx-auto mt-12'>Oblicz</button>
+        <button className='btn-primary mx-auto mt-12 min-w-40'>Oblicz</button>
       </form>
     </section>
   );
