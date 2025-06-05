@@ -24,4 +24,16 @@
   .label {
     @apply block text-sm font-medium mb-1;
   }
+
+  .checkbox {
+    @apply w-4 h-4 appearance-none border border-primary-light rounded-sm bg-background 
+           checked:bg-primary checked:border-primary cursor-pointer transition-colors duration-200 
+           relative;
+  }
+
+  .checkbox:checked::after {
+    content: "";
+    @apply absolute top-[2px] left-[6px] w-[4px] h-[8px] border-white border-r-2 border-b-2 
+           rotate-45;
+  }
 }
