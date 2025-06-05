@@ -9,8 +9,6 @@ export function calculateEarnings(formData) {
     reliefs,
   } = formData;
 
-  console.log("Form Data (js):", formData);
-
   const parsedMonthlyRate = parseFloat(monthlyRate) || 0;
   const unpaidDays = parseInt(unpaidDaysOff) || 0;
   const commuteTrips = parseInt(commuteCount) || 0;
@@ -24,23 +22,32 @@ export function calculateEarnings(formData) {
     ? parsedMonthlyRate - deductionForUnpaidDays
     : parsedMonthlyRate;
 
-  // 2. Dojazdy
-  const commuteCostPerKm = 0.89; // stawka za km w 2024 (fikcyjna)
-  const commuteCost = commuteTrips * distance * 2 * commuteCostPerKm;
+  // 2. Składki ZUS (fikcyjne wartości)
+  // Stałe składki ZUS na 2025 rok
+  const ZUS_STANDARD = 1773.96; // Pełny ZUS z chorobowym
+  const ZUS_STANDARD_NO_CHOROBOWE = 1646.47; // Pełny ZUS bez chorobowego
+  const ZUS_PREFERENCYJNY = 442.9; // Preferencyjny ZUS z chorobowym
+  const ZUS_PREFERENCYJNY_NO_CHOROBOWE = 408.6; // Preferencyjny ZUS bez chorobowego
 
-  // 3. Składki ZUS (fikcyjne wartości)
-  let zus = 1600; // standard ZUS
-  if (reliefs.startupRelief) zus = 0;
-  else if (reliefs.smallZUS) zus = 400;
-  else if (reliefs.smallZUSPlus) zus = 800;
+  let zus = ZUS_STANDARD; // Domyślnie pełny ZUS z chorobowym
 
-  // 4. VAT (23%)
+  if (reliefs.startupRelief) {
+    zus = 0;
+  } else if (reliefs.smallZUS) {
+    zus = ZUS_PREFERENCYJNY;
+  } else if (reliefs.smallZUSPlus) {
+    // Dla Małego ZUS Plus należałoby obliczyć składki indywidualnie
+    // Na potrzeby uproszczenia przyjmujemy wartość preferencyjną
+    zus = ZUS_PREFERENCYJNY;
+  }
+
+  // 3. VAT (23%)
   let vat = 0;
   if (reliefs.isVatPayer) {
     vat = parsedMonthlyRate * 0.23;
   }
 
-  // 5. Podatek dochodowy (upraszczamy)
+  // 4. Podatek dochodowy (upraszczamy)
   let tax = 0;
   let taxableBase = incomeAfterUnpaid - zus;
 
@@ -71,7 +78,7 @@ export function calculateEarnings(formData) {
     tax = parsedMonthlyRate * 0.15;
   }
 
-  // 6. Netto i brutto
+  // 5. Netto i brutto
   const grossIncome = isGross ? parsedMonthlyRate : parsedMonthlyRate + vat;
   console.log(vat);
 
@@ -81,7 +88,18 @@ export function calculateEarnings(formData) {
     socialSecurity: zus.toFixed(2),
     incomeTax: tax.toFixed(2),
     vat: vat.toFixed(2),
-    commuteCost: commuteCost.toFixed(2),
     grossIncomeWithVat: grossIncome.toFixed(2),
   };
+}
+
+export function format(amount, currency = "zł") {
+  const parsed = parseFloat(amount);
+  if (isNaN(parsed)) return `0,00 ${currency}`;
+
+  return (
+    parsed.toLocaleString("pl-PL", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }) + ` ${currency}`
+  );
 }

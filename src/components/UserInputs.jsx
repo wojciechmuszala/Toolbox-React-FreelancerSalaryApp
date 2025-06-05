@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Switch from "./ui/Switch.jsx";
+import InfoTooltip from "./ui/InfoTooltip.jsx";
 
 const UserInputs = ({ onSetUserData }) => {
   const [isGross, setIsGross] = useState(false);
@@ -15,8 +16,6 @@ const UserInputs = ({ onSetUserData }) => {
       monthlyRate: form.monthlyRate.value,
       unpaidDaysOff: form.unpaidDaysOff.value,
       taxForm: form.taxForm.value,
-      commuteCount: form.commuteCount.value,
-      commuteDistance: form.commuteDistance.value,
       reliefs: {
         isVatPayer: form.isVatPayer?.checked || false,
         startupRelief: form.startupRelief?.checked || false,
@@ -100,30 +99,6 @@ const UserInputs = ({ onSetUserData }) => {
             </select>
           </p>
         </div>
-        <div className='flex gap-4'>
-          <p className='w-full'>
-            <label htmlFor='commuteCount' className='label'>
-              Liczba dojazdów (miesięcznie)
-            </label>
-            <input
-              id='commuteCount'
-              type='number'
-              className='input'
-              placeholder='np. 10'
-            />
-          </p>
-          <p className='w-full'>
-            <label htmlFor='commuteDistance' className='label'>
-              Kilometraż w jedną stronę (km)
-            </label>
-            <input
-              id='commuteDistance'
-              type='number'
-              className='input'
-              placeholder='np. 15'
-            />
-          </p>
-        </div>
         <div className={taxForm ? "" : "opacity-50 pointer-events-none"}>
           <label className='block text-sm font-medium mb-2'>
             Ulgi i preferencje
@@ -140,6 +115,7 @@ const UserInputs = ({ onSetUserData }) => {
                   id='isVatPayer'
                 />
                 Podatnik VAT
+                <InfoTooltip text='Status podatnika VAT oznacza, że jesteś zobowiązany do rozliczania podatku VAT od swojej działalności.' />
               </label>
               {/* ZUSowe - dostępne zawsze */}
               <label
@@ -152,6 +128,7 @@ const UserInputs = ({ onSetUserData }) => {
                   id='startupRelief'
                 />
                 Ulga na start
+                <InfoTooltip text='Ulga na start to zwolnienie z opłacania składek na ubezpieczenia społeczne przez pierwsze 6 miesięcy prowadzenia działalności. Składka zdrowotna nadal obowiązuje.' />
               </label>
               <label htmlFor='smallZUS' className='flex items-center gap-2'>
                 <input
@@ -161,6 +138,7 @@ const UserInputs = ({ onSetUserData }) => {
                   id='smallZUS'
                 />
                 Preferencyjny ZUS (niski)
+                <InfoTooltip text='Preferencyjny ZUS to obniżone składki na ubezpieczenia społeczne przez pierwsze 24 miesiące działalności.' />
               </label>
               <label htmlFor='smallZUSPlus' className='flex items-center gap-2'>
                 <input
@@ -170,6 +148,7 @@ const UserInputs = ({ onSetUserData }) => {
                   id='smallZUSPlus'
                 />
                 Mały ZUS Plus
+                <InfoTooltip text='Mały ZUS Plus to obniżone składki ZUS dla przedsiębiorców o niskich przychodach, dostępne po okresie preferencyjnym.' />
               </label>
 
               {/* Ryczałt tylko przy ryczałcie */}
@@ -182,6 +161,7 @@ const UserInputs = ({ onSetUserData }) => {
                     id='isFlatRate'
                   />
                   Ryczałt od przychodów
+                  <InfoTooltip text='Ryczałt od przychodów to forma opodatkowania, gdzie podatek płacisz od przychodu, bez możliwości odliczania kosztów.' />
                 </label>
               )}
 
@@ -197,6 +177,7 @@ const UserInputs = ({ onSetUserData }) => {
                     id='youthRelief'
                   />
                   Ulga dla młodych (&lt;26 lat)
+                  <InfoTooltip text='Ulga dla młodych pozwala na zwolnienie z podatku dochodowego dla osób poniżej 26 roku życia.' />
                 </label>
               )}
 
@@ -210,6 +191,7 @@ const UserInputs = ({ onSetUserData }) => {
                     id='ipBox'
                   />
                   IP BOX (5% PIT)
+                  <InfoTooltip text='IP BOX to preferencyjna stawka podatku 5% dla dochodów z kwalifikowanych praw własności intelektualnej.' />
                 </label>
               )}
 
@@ -223,6 +205,7 @@ const UserInputs = ({ onSetUserData }) => {
                     id='useCosts'
                   />
                   Uwzględniam koszty uzyskania
+                  <InfoTooltip text='Uwzględnianie kosztów uzyskania przychodu pozwala na pomniejszenie podstawy opodatkowania o poniesione wydatki.' />
                 </label>
               )}
             </div>
