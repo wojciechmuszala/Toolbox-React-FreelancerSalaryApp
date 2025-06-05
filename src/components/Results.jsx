@@ -42,38 +42,40 @@ const Results = ({ userData }) => {
               {noData ? "-" : format(results.incomeTax)}
             </td>
           </tr>
-
-          <tr>
-            <td className='py-2'>Koszty uzyskania</td>
-            <td className='py-2 text-right'>
-              {noData ? "-" : format(results.expenses)}
-            </td>
-          </tr>
-          <tr>
-            <td className='py-2'>Dochód na rękę po kosztach</td>
-            <td className='py-2 text-right'>
-              {noData ? "-" : format(results.netIncome)}
-            </td>
-          </tr>
-          <tr className='text-xs text-text/70'>
-            <td className='pl-4 py-1'>Dniówka</td>
-            <td className='py-1 text-right'>
-              {noData ? "-" : format(results.netIncome / 21)}
-            </td>
-          </tr>
-          <tr className='text-xs text-text/70'>
-            <td className='pl-4 py-1'>Stawka godzinowa</td>
-            <td className='py-1 text-right'>
-              {noData ? "-" : format(results.netIncome / 168)}
-            </td>
-          </tr>
+          {results.expenses >= 0 && (
+            <>
+              <tr>
+                <td className='py-2'>Koszty uzyskania</td>
+                <td className='py-2 text-right'>
+                  {noData ? "-" : format(results.expenses)}
+                </td>
+              </tr>
+              <tr>
+                <td className='py-2'>Dochód na rękę po kosztach</td>
+                <td className='py-2 text-right'>
+                  {noData ? "-" : format(results.netIncome)}
+                </td>
+              </tr>
+              <tr className='text-xs text-text/70'>
+                <td className='pl-4 py-1'>Dniówka</td>
+                <td className='py-1 text-right'>
+                  {noData ? "-" : format(results.netIncome / 21)}
+                </td>
+              </tr>
+              <tr className='text-xs text-text/70'>
+                <td className='pl-4 py-1'>Stawka godzinowa</td>
+                <td className='py-1 text-right'>
+                  {noData ? "-" : format(results.netIncome / 168)}
+                </td>
+              </tr>
+            </>
+          )}
           <tr className='font-semibold text-primary-light'>
             <td className='py-2'>Dochód na rękę przed kosztami</td>
             <td className='py-2 text-right'>
               {noData ? "-" : format(results.netIncomeBeforeExpenses)}
             </td>
           </tr>
-
           <tr className='text-xs text-text/70'>
             <td className='pl-4 py-1'>Dniówka</td>
             <td className='py-1 text-right'>
