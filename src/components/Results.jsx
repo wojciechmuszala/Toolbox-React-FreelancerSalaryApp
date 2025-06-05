@@ -42,7 +42,7 @@ const Results = ({ userData }) => {
               {noData ? "-" : format(results.incomeTax)}
             </td>
           </tr>
-          {results.expenses >= 0 && (
+          {results.expenses > 0 && (
             <>
               <tr>
                 <td className='py-2'>Koszty uzyskania</td>
