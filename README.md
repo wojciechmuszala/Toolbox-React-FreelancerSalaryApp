@@ -1,12 +1,39 @@
-# React + Vite
+<p align="center">
+  <img src="public/logo.png" width="200" alt="Freelancer Salary App Logo" />
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 💼 Freelancer Salary App
 
-Currently, two official plugins are available:
+A simple salary calculator for Polish freelancers running a sole proprietorship (**JDG**).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧾 Features
 
-## Expanding the ESLint configuration
+- Calculate net/gross income
+- Choose taxation form:
+  - Progressive (12% / 32%)
+  - Flat rate (19%)
+  - Lump sum (ryczałt)
+- Support for:
+  - ZUS contributions (full, preferential, startup relief, Small ZUS+)
+  - VAT payer option
+  - Business expenses (manually entered)
+  - Tax reliefs (youth, IP Box, etc.)
+  - Unpaid days off
+- Financial summary with:
+  - Net / gross from form
+  - VAT, ZUS, income tax
+  - Net income before and after costs
+  - Effective daily and hourly rate
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+
+- **React** + **Vite**
+- **TailwindCSS**
+- Pure frontend – all calculations happen locally
+
+## ▶️ Getting Started
+
+```bash
+npm install
+npm run dev
+```
